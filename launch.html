@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BusLoot — Launch</title>
+  <style>
+    :root{--bg:#071028;--card:#0b1630;--accent:#3b82f6;--muted:#cbd5e1}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    body{display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#04102a 0%, #071028 100%);color:var(--muted)}
+    .card{background:var(--card);padding:28px;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,0.6);width:460px;max-width:92%;text-align:center}
+    h1{margin:0 0 8px;font-size:20px;color:#fff}
+    p{margin:8px 0 16px;color:rgba(203,213,225,0.9)}
+    button{background:var(--accent);color:#fff;border:0;padding:12px 18px;border-radius:8px;font-size:16px;cursor:pointer}
+    button:active{transform:translateY(1px)}
+    details{margin-top:12px;color:var(--muted);text-align:left}
+    pre{background:#071427;padding:8px;border-radius:6px;color:var(--muted);overflow:auto}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>BusLoot — Launch</h1>
+    <p>Nhấp nút bên dưới để mở prototype trong tab mới (index.html).</p>
+    <button id="openBtn">Open BusLoot</button>
+    <p style="margin-top:12px;font-size:13px;opacity:0.85">Nếu trình duyệt chặn popup hoặc cấm mở file cục bộ, xem hướng dẫn server nhanh.</p>
+    <details>
+      <summary>Hướng dẫn server nhanh</summary>
+      <pre># Mở PowerShell trong thư mục D:\BusLoot
+python -m http.server 8000
+# Sau đó mở trình duyệt: http://localhost:8000/</pre>
+    </details>
+  </div>
+  <script>
+    document.getElementById('openBtn').addEventListener('click', function(){
+      const opened = window.open('index.html', '_blank');
+      if (!opened) {
+        alert('Popup bị chặn hoặc không thể mở tab. Hãy mở file index.html thủ công hoặc cho phép popup.');
+      }
+    });
+  </script>
+</body>
+</html>

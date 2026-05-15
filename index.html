@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BusLoot | Ride & Collect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <span class="brand">BusLoot &#x1F1FB;&#x1F1F3</span>
+        <p class="tagline">A gamified collectible ecosystem for public transportation users.</p>
+      </div>
+      <div class="meta-pill">Ride streak: <span id="streakValue">0</span> days</div>
+    </header>
+
+    <div class="auth-summary" id="authSummary">
+      <div class="user-card">
+        <span id="userLabel">Chưa đăng nhập</span>
+        <button id="toggleAuthButton" class="secondary">Đăng nhập / Đăng ký</button>
+      </div>
+      <button id="shareButton" class="secondary">Mời bạn bè</button>
+    </div>
+
+    <main class="layout">
+      <section class="hero-panel">
+        <div class="hero-copy">
+          <p class="eyebrow">Ride • Scan • Collect</p>
+          <h1>Biến mỗi chuyến xe buýt thành một loot drop cực chất.</h1>
+          <p>Navigate, mở capsule, sở hữu sticker rare, khoe với bạn bè và leo bảng xếp hạng campus.</p>
+          <div class="hero-actions">
+            <button id="scanButton" class="primary">Location on</button>
+            <button id="inventoryButton" class="secondary">Xem bộ sưu tập</button>
+          </div>
+          <p class="hero-note">Tất cả sticker là thiết kế riêng: anime, vật dụng, đồ chơi, biểu tượng đường phố.</p>
+        </div>
+        <div class="hero-card">
+          <div class="card-header">
+            <span class="label">Drop hôm nay</span>
+            <span class="badge">Rainy Day Event</span>
+          </div>
+          <div class="card-body">
+            <p class="drop-title">Bạn sắp sở hữu một capsule sticker!</p>
+            <div class="rarity-bar">
+              <span class="pill common">Common</span>
+              <span class="pill uncommon">Uncommon</span>
+              <span class="pill rare">Rare</span>
+              <span class="pill epic">Epic</span>
+              <span class="pill legendary">Legendary</span>
+              <span class="pill mythic">Mythic</span>
+              <span class="pill secret">Secret</span>
+              <span class="pill impossible">Impossible</span>
+            </div>
+            <p class="hint">Tỷ lệ hiếm: Common 55%, Uncommon 25%, Rare 12%, Epic 5%, Legendary 2%, Mythic 0.8%, Secret 0.19%, Impossible ???.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="game-panel" id="gamePanel">
+        <div class="play-panel glass">
+          <div class="panel-title">BusLoot Capsule</div>
+          <div class="stats-row">
+            <div class="stat-card">
+              <span class="stat-label">Tổng chuyến đi</span>
+              <strong id="rideCount">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Rides until bonus</span>
+              <strong id="bonusCounter">3</strong>
+            </div>
+          </div>
+          <div class="scanner-card">
+            <div class="scanner-display">
+              <div class="scan-icon">BUS</div>
+              <div>
+                <p class="scanner-title">Chọn tuyến xe</p>
+                <select id="routeSelect">
+                  <option value="any">Mọi tuyến</option>
+                  <option value="32">Tuyến 32</option>
+                  <option value="BRT">Tuyến BRT</option>
+                  <option value="metro">Tuyến Metro</option>
+                  <option value="27">Tuyến 27</option>
+                  <option value="161">Tuyến 161</option>
+                  <option value="21A">Tuyến 21A</option>
+                  <option value="E06">Tuyến E06</option>
+                  <option value="106">Tuyến 106</option>
+                  <option value="160">Tuyến 160</option>
+                  <option value="162">Tuyến 162</option>
+
+                </select>
+              </div>
+            </div>
+            <div class="location-panel">
+              <div id="locationPanel">
+              <p id="locationStatus">Vị trí chưa xác thực.</p>
+              <button id="checkLocationButton" class="secondary">Xác nhận gần bến xe</button>
+              <p id="rideStatus">Bạn cần xác thực vị trí và đi ít nhất 10 phút để mở gacha.</p>
+              </div>
+            </div>
+            <button id="startRideButton" class="primary" disabled>Bắt đầu chuyến đi</button>
+            <button id="openButton" class="open-button" disabled>Mở capsule</button>
+            <div class="scan-notice">Navigation, xác thực bến xe và đi đủ 10 phút để được nhận 1 lượt gacha.</div>
+          </div>
+        </div>
+
+        <div class="loot-panel glass" id="lootPanel">
+          <div class="panel-title">Kết quả mở capsule</div>
+          <div class="loot-slot" id="lootSlot">
+            <div class="loot-empty">Chưa mở capsule</div>
+          </div>
+          <div class="rarity-legend">
+            <div><span class="legend-dot common"></span>Common 55%</div>
+            <div><span class="legend-dot uncommon"></span>Uncommon 25%</div>
+            <div><span class="legend-dot rare"></span>Rare 12%</div>
+            <div><span class="legend-dot epic"></span>Epic 5%</div>
+            <div><span class="legend-dot legendary"></span>Legendary 2%</div>
+            <div><span class="legend-dot mythic"></span>Mythic 0.8%</div>
+            <div><span class="legend-dot secret"></span>Secret 0.19%</div>
+            <div><span class="legend-dot impossible"></span>Impossible ???</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="inventory-panel" id="inventoryPanel">
+        <div class="panel-header">
+          <h2>Bộ sưu tập sticker</h2>
+          <p id="collectionSummary">0 sticker khác nhau • Completion 0%</p>
+        </div>
+        <div class="inventory-grid" id="inventoryGrid"></div>
+      </section>
+
+      <section class="trade-panel glass" id="tradePanel">
+        <div class="panel-header">
+          <h2>Trade Prototype</h2>
+          <p>Chọn sticker đang có để nhận đề xuất giao dịch và đổi lấy item hiếm hơn hoặc độc quyền.</p>
+        </div>
+        <div class="trade-card">
+          <select id="tradeSelect">
+            <option value="">Chọn sticker để trade</option>
+          </select>
+          <button id="tradeButton" class="secondary" disabled>Đề xuất trade</button>
+        </div>
+        <div class="trade-offer" id="tradeOffer">
+          <div class="trade-empty">Chưa có đề xuất trade. Chọn sticker và nhấn đề xuất.</div>
+        </div>
+      </section>
+
+      <section class="leaderboard-panel glass">
+        <div class="panel-title">Campus leaderboard</div>
+        <div class="leaderboard-list" id="leaderboardList"></div>
+        <p class="leaderboard-note">FTU, NEU, HUST đang cạnh tranh collection & rare pull.</p>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <template id="inventoryTileTemplate">
+    <div class="inventory-tile">
+      <div class="tile-badge" data-rarity></div>
+      <div class="tile-art" data-icon></div>
+      <div class="tile-name" data-name></div>
+      <div class="tile-count" data-count></div>
+    </div>
+  </template>
+
+  <div class="auth-modal hidden" id="authModal">
+    <div class="auth-card">
+      <button class="close-auth" id="closeAuthButton">×</button>
+      <div class="auth-tabs">
+        <button id="authLoginTab" class="tab active">Đăng nhập</button>
+        <button id="authSignupTab" class="tab">Đăng ký</button>
+      </div>
+      <form id="loginForm" class="auth-form">
+        <label>Tên người dùng</label>
+        <input id="loginUsername" type="text" placeholder="Nhập username" />
+        <label>Mật khẩu</label>
+        <input id="loginPassword" type="password" placeholder="Nhập mật khẩu" />
+        <button type="submit" class="primary">Đăng nhập</button>
+        <div class="auth-message" id="authMessage"></div>
+      </form>
+      <form id="signupForm" class="auth-form hidden">
+        <label>Tên người dùng</label>
+        <input id="signupUsername" type="text" placeholder="Chọn username" />
+        <label>Trường</label>
+        <select id="signupSchool">
+          <option value="FTU">FTU</option>
+          <option value="NEU">NEU</option>
+          <option value="HLU">HLU</option>
+          <option value="HUST">HUST</option>
+        </select>
+        <label>Mật khẩu</label>
+        <input id="signupPassword" type="password" placeholder="Tạo mật khẩu" />
+        <label>Nhập lại mật khẩu</label>
+        <input id="signupConfirm" type="password" placeholder="Nhập lại mật khẩu" />
+        <button type="submit" class="primary">Đăng ký</button>
+        <div class="auth-message" id="authMessageSignup"></div>
+      </form>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
